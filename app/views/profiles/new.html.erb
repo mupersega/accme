@@ -1,0 +1,13 @@
+<%= form_with model: Profile.new do |f| %>
+  <p>
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name, placeholder: "first name"%>
+  </p>
+  <p>
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name, placeholder: "last name"%>
+  </p>
+  <p>
+  <%= f.submit :caption%>
+  </p>
+<% end %>
