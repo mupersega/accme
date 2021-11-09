@@ -10,19 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_09_040232) do
+ActiveRecord::Schema.define(version: 2021_11_09_062158) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "majors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "profile_qualifications", force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.bigint "qualification_id", null: false
+    t.bigint "major_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["major_id"], name: "index_profile_qualifications_on_major_id"
+    t.index ["profile_id"], name: "index_profile_qualifications_on_profile_id"
+    t.index ["qualification_id"], name: "index_profile_qualifications_on_qualification_id"
+  end
 
   create_table "profiles", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "address"
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
+
+  create_table "qualifications", force: :cascade do |t|
+    t.string "name"
+    t.integer "weight"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -55,5 +79,8 @@ ActiveRecord::Schema.define(version: 2021_11_09_040232) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "profile_qualifications", "majors"
+  add_foreign_key "profile_qualifications", "profiles"
+  add_foreign_key "profile_qualifications", "qualifications"
   add_foreign_key "profiles", "users"
 end

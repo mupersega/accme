@@ -6,8 +6,24 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-User.create(email:"a@b.com", password:"abc123")
+Profile.destroy_all
+User.destroy_all
+Major.destroy_all
+Qualification.destroy_all
 
-Profile.create!(first_name:"cam", last_name:"tee")
+User.create!(email:"a@b.com", password:"abc123")
+
+p = Profile.create!(first_name:"cam", last_name:"tee", user:User.first)
+
+Major.create!(name:"Piano Performance")
+Major.create!(name:"Piano Accompaniment")
+Major.create!(name:"Violin")
+Major.create!(name:"Piano")
+Major.create!(name: "Undisclosed")
+
+Qualification.create!(name:"Lmus", weight:10)
+Qualification.create!(name:"Amus", weight:20)
+Qualification.create!(name:"Bmus", weight:30)
+Qualification.create!(name:"Bmus", weight:40)
 
 
