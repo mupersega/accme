@@ -1,3 +1,14 @@
-<h1>test_Index</h1>
-
+<div>
+  <h1>ACCOMPANY ME.com</h1>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">
+      <%= link_to "new profile", profiles_new_path %>
+    </a>
+    redirect_to :action => "show", :id => 5
+  </nav>
+  <% @profiles.each do |p| %>
+    <p>name: <%= "lkjfasdf" %></p>
+    <%= link_to "#{p.first_name} #{p.last_name}", profile_show_path(p.id) %>
+  <% end %>
+</div>
 <%= link_to "new profile", profiles_new_path %>

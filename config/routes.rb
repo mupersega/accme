@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   root to: "profiles#index"
 
   get "/profiles/new", to: "profiles#new"
-  get "/profiles/:id", to: "profiles#show"
+  get "/profiles/:id", to: "profiles#show", as: 'profile_show'
   post "/profiles", to: "profiles#create"
 end

@@ -12,8 +12,16 @@ Major.destroy_all
 Qualification.destroy_all
 
 User.create!(email:"a@b.com", password:"abc123")
+User.create!(email:"b@c.com", password:"abc123")
+User.create!(email:"c@d.com", password:"abc123")
+User.create!(email:"d@e.com", password:"abc123")
 
-p = Profile.create!(first_name:"cam", last_name:"tee", user:User.first)
+
+Profile.create!(first_name:"cam", last_name:"tee", user:User.first)
+Profile.create!(first_name:"john", last_name:"doe", user:User.second)
+Profile.create!(first_name:"bruce", last_name:"banner", user:User.third)
+Profile.create!(first_name:"wonder", last_name:"woman", user:User.fourth)
+
 
 Major.create!(name:"Piano Performance")
 Major.create!(name:"Piano Accompaniment")
