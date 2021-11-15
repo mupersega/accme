@@ -11,27 +11,28 @@ User.destroy_all
 Major.destroy_all
 Qualification.destroy_all
 
+# setup an admin
+admin = User.create!(email:"admin@admin.com", password:"admin")
+Profile.create!(first_name:"admin", last_name:"admin", user:admin)
+admin.add_role(:admin)
+
+# setup placeholders
 User.create!(email:"a@b.com", password:"abc123")
 User.create!(email:"b@c.com", password:"abc123")
-User.create!(email:"c@d.com", password:"abc123")
-User.create!(email:"d@e.com", password:"abc123")
-
 
 Profile.create!(first_name:"cam", last_name:"tee", user:User.first)
 Profile.create!(first_name:"john", last_name:"doe", user:User.second)
-Profile.create!(first_name:"bruce", last_name:"banner", user:User.third)
-Profile.create!(first_name:"wonder", last_name:"woman", user:User.fourth)
 
-
+# setup base qualifications
+Qualification.create!(name:"Lmus", weight:10)
+Qualification.create!(name:"Amus", weight:20)
+Qualification.create!(name:"Bmus", weight:30)
+Qualification.create!(name:"Bmus", weight:40)
+# setup base majors
 Major.create!(name:"Piano Performance")
 Major.create!(name:"Piano Accompaniment")
 Major.create!(name:"Violin")
 Major.create!(name:"Piano")
 Major.create!(name: "Undisclosed")
-
-Qualification.create!(name:"Lmus", weight:10)
-Qualification.create!(name:"Amus", weight:20)
-Qualification.create!(name:"Bmus", weight:30)
-Qualification.create!(name:"Bmus", weight:40)
 
 

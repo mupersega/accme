@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ApplicationPolicy
+class ProfilePolicy
   attr_reader :user, :record
 
   def initialize(user, record)
@@ -9,7 +9,7 @@ class ApplicationPolicy
   end
 
   def index?
-    false
+    true
   end
 
   def show?
