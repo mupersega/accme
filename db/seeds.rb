@@ -28,11 +28,10 @@ Qualification.create!(name:"Lmus", weight:10)
 Qualification.create!(name:"Amus", weight:20)
 Qualification.create!(name:"Bmus", weight:30)
 Qualification.create!(name:"Bmus", weight:40)
+
 # setup base majors
 Major.create!(name:"Piano Performance")
 Major.create!(name:"Piano Accompaniment")
 Major.create!(name:"Violin")
 Major.create!(name:"Piano")
 Major.create!(name: "Undisclosed")
-
-

@@ -12,6 +12,7 @@ class ProfilesController < ApplicationController
   end
 
   def create
+    profile_params[:user] = current_user
     @profile = Profile.new(profile_params)
     begin
       @profile.save!
@@ -28,7 +29,7 @@ class ProfilesController < ApplicationController
   private
 
   def profile_params
-    params.require(:profile).permit(:first_name, :last_name)
+    params.require(:profile).permit(:first_name, :last_name, :blurb, :phone)
   end
 
 end
