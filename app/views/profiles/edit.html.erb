@@ -22,6 +22,11 @@
     <%= f.file_field :picture, placeholder: "title"%>
   </p>
   <p>
+  <%# check boxes require 4 parameters ids, collection, for each in collection, attrib as label %>
+    <%= f.label :profile_qualifications %>
+    <%= f.collection_check_boxes :profile_qualifications, @qualifications, :id, :name%>
+  </p>
+  <p>
     <%= f.submit method: :update %>
   </p>
 <% end %>

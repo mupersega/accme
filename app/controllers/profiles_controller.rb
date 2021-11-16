@@ -1,5 +1,6 @@
 class ProfilesController < ApplicationController
   before_action :prep_profile, only: [:show, :edit, :update]
+  before_action :prep_qualifications, only: [:edit, :new]
 
   def index
     @profiles = Profile.all
@@ -45,6 +46,10 @@ class ProfilesController < ApplicationController
 
   def prep_profile
     @profile = Profile.find(params[:id])
+  end
+
+  def prep_qualifications
+    @qualifications = Qualification.all
   end
 
 end
