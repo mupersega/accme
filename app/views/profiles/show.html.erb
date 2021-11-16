@@ -3,5 +3,8 @@
 <%= @profile.first_name %>
 <%= @profile.last_name %>
 <%= @profile.user.email %>
+<% if @profile.picture.attached? %>
+  <%= cl_image_tag @profile.picture.key, cloud_name: "dbsmyugus", crop: :scale, width: 200 %>
+<% end %>
 <%= link_to "edit my profile", edit_profile_path %>
 </h1>

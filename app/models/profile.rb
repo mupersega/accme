@@ -7,4 +7,6 @@ class Profile < ApplicationRecord
   validates :last_name, presence: true
   validates :blurb, length: { maximum: 500,
     too_long: "%{count} characters is the maximum allowed" }
+
+  has_one_attached :picture
 end

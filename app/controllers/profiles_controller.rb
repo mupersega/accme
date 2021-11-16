@@ -18,7 +18,6 @@ class ProfilesController < ApplicationController
       @profile.save!
       redirect_to profile_show_path(@profile.id)
     rescue
-      raise
       flash.now[:errors] = @profile.errors.messages.values.flatten
       render 'new'
     end
@@ -29,14 +28,19 @@ class ProfilesController < ApplicationController
   end
 
   def update
-    @profile.update(profile_params)
-    redirect_to root_path
+    begin
+      @profile.update(profile_params)
+      redirect_to root_path
+    rescue
+      flash.now[:errors] = @profile.errors.messages.values.flatten
+      render 'edit'
+    end
   end
 
   private
 
   def profile_params
-    params.require(:profile).permit(:first_name, :last_name, :blurb, :phone)
+    params.require(:profile).permit(:first_name, :last_name, :blurb, :phone, :picture)
   end
 
   def prep_profile
