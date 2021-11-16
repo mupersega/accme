@@ -2,4 +2,6 @@
 <h1>
 <%= @profile.first_name %>
 <%= @profile.last_name %>
+<%= @profile.user.email %>
+<%= link_to "edit my profile", edit_profile_path %>
 </h1>

@@ -1,0 +1,23 @@
+<%= form_with model: @profile, url: show_profile_path(@profile), method: :put, local: true  do |f| %>
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+  <p>
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name, value: @profile.first_name %>
+  </p>
+  <p>
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name, value: @profile.last_name %>
+  </p>
+  <p>
+    <%= f.label :phone %>
+    <%= f.telephone_field :phone, value: @profile.phone %>
+  </p>
+  <p>
+    <%= f.label :blurb %>
+    <%= f.text_field :blurb, placeholder: "About me"%>
+  </p>
+  <p>
+    <%= f.submit method: :update %>
+  </p>
+<% end %>

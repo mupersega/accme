@@ -10,11 +10,11 @@
       <a href="#">
         <% if user_signed_in? %>
           <% if current_user.profile %>
-            <%= link_to "my account", profile_show_path(current_user.profile) %>
+            <%= link_to "my account", show_profile_path(current_user.profile.id) %>
           |
             <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
           <% else %>
-            <%= link_to "my account", profiles_new_path %>
+            <%= link_to "new account", profiles_new_path %>
           <% end %>
           |
         <% else %>
