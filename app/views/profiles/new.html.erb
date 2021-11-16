@@ -1,4 +1,4 @@
-<p class="notice"><%= notice %></p>
+<%# <p class="notice"><%= notice %></p> %>
 <p class="alert"><%= alert %></p>
 <%= form_with model: Profile.new do |f| %>
   <p>
@@ -8,6 +8,10 @@
   <p>
     <%= f.label :last_name %>
     <%= f.text_field :last_name, placeholder: "last name"%>
+  </p>
+  <p>
+    <%= f.label :blurb %>
+    <%= f.text_field :blurb, placeholder: "About me"%>
   </p>
   <p>
   <%= f.submit :caption%>
