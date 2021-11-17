@@ -1,32 +1,42 @@
-<%= form_with model: Profile.new do |f| %>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  <p>
-    <%= f.label :first_name %>
-    <%= f.text_field :first_name, placeholder: "first name"%>
-  </p>
-  <p>
-    <%= f.label :last_name %>
-    <%= f.text_field :last_name, placeholder: "last name"%>
-  </p>
-  <p>
-    <%= f.label :phone %>
-    <%= f.telephone_field :phone, placeholder: "mobile or home phone"%>
-  </p>
-  <p>
-    <%= f.label :picture %>
-    <%= f.file_field :picture, placeholder: "profile picture"%>
-  </p>
-  <p>
-    <%= f.label :blurb %>
-    <%= f.text_field :blurb, placeholder: "About me"%>
-  </p>
-  <p>
-  <%# check boxes require 4 parameters ids, collection, for each in collection, attrib as label %>
-    <%= f.label :qualifications %>
-    <%= f.collection_check_boxes :qualifications, @qualifications, :id, :name%>
-  </p>
-  <p>
-  <%= f.submit %>
-  </p>
-<% end %>
+<div class="container-sm">
+  <%= form_with model: Profile.new do |f| %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <p>
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name, placeholder: "first name"%>
+    </p>
+    <p>
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name, placeholder: "last name"%>
+    </p>
+    <p>
+      <%= f.label :phone %>
+      <%= f.telephone_field :phone, placeholder: "mobile or home phone"%>
+    </p>
+    <p>
+      <%= f.label :picture %>
+      <%= f.file_field :picture, placeholder: "profile picture"%>
+    </p>
+    <p>
+      <%= f.label :blurb %>
+      <%= f.text_field :blurb, placeholder: "About me"%>
+    </p>
+    <p>
+      <%= f.label :qualifications %>
+
+      <%= fields_for :qualification_ids do |nested_form| %>
+        <% @qualifications.each do |qual| %>
+          <div>
+            <%= nested_form.label qual.name %>
+            <%= nested_form.check_box qual.name %>
+            <%= nested_form.select(qual.id, @majors.map {|m| [m.name, m.id]}) %>
+          </div>   
+        <% end %>
+      <% end %>
+    </p>
+    <p>
+    <%= f.submit %>
+    </p>
+  <% end %>
+</div>

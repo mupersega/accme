@@ -1,32 +1,41 @@
-<%= form_with model: @profile, url: show_profile_path(@profile), method: :put, local: true  do |f| %>
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
-  <p>
-    <%= f.label :first_name %>
-    <%= f.text_field :first_name, value: @profile.first_name %>
-  </p>
-  <p>
-    <%= f.label :last_name %>
-    <%= f.text_field :last_name, value: @profile.last_name %>
-  </p>
-  <p>
-    <%= f.label :phone %>
-    <%= f.telephone_field :phone, value: @profile.phone %>
-  </p>
-  <p>
-    <%= f.label :blurb %>
-    <%= f.text_field :blurb, placeholder: "About me"%>
-  </p>
-  <p>
-    <%= f.label :picture %>
-    <%= f.file_field :picture, placeholder: "title"%>
-  </p>
-  <p>
-  <%# check boxes require 4 parameters ids, collection, for each in collection, attrib as label %>
-    <%= f.label :profile_qualifications %>
-    <%= f.collection_check_boxes :profile_qualifications, @qualifications, :id, :name%>
-  </p>
-  <p>
-    <%= f.submit method: :update %>
-  </p>
-<% end %>
+<div class="container-sm">
+  <%= form_with model: @profile, url: show_profile_path(@profile), method: :put, local: true  do |f| %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <p>
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name, value: @profile.first_name %>
+    </p>
+    <p>
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name, value: @profile.last_name %>
+    </p>
+    <p>
+      <%= f.label :phone %>
+      <%= f.telephone_field :phone, value: @profile.phone %>
+    </p>
+    <p>
+      <%= f.label :blurb %>
+      <%= f.text_field :blurb, placeholder: "About me"%>
+    </p>
+    <p>
+      <%= f.label :picture %>
+      <%= f.file_field :picture, placeholder: "title"%>
+    </p>
+    <p>
+      <%= f.label :qualifications %>
+      <%= fields_for :qualification_ids do |nested_form| %>
+        <% @qualifications.each do |qual| %>
+          <div>
+            <%= nested_form.label qual.name %>
+            <%= nested_form.check_box qual.id %>
+            <%= nested_form.select(qual.id, @majors.map {|m| [m.name, m.id]}) %>
+          </div>   
+        <% end %>
+      <% end %>
+    </p>
+    <p>
+      <%= f.submit %>
+    </p>
+  <% end %>
+</div>
