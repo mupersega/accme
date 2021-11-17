@@ -1,5 +1,5 @@
 <div class="container-sm">
-  <%= form_with model: Profile.new do |f| %>
+  <%= form_with model: @profile do |f| %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <p>
@@ -23,16 +23,16 @@
       <%= f.text_field :blurb, placeholder: "About me"%>
     </p>
     <p>
-      <%= f.label :qualifications %>
-
-      <%= fields_for :qualification_ids do |nested_form| %>
-        <% @qualifications.each do |qual| %>
+      <%= fields_for :profile_qualifications do |nested_form| %>
+        <% @qualifications.each do |q| %>
           <div>
-            <%= nested_form.label qual.name %>
-            <%= nested_form.check_box qual.name %>
-            <%= nested_form.select(qual.id, @majors.map {|m| [m.name, m.id]}) %>
+              <%= nested_form.label q.name %>
+              <%= nested_form.check_box q.id %>
+              <%= fields_for "#{q.id}" do |nf| %>
+                <%= nf.collection_select :qualification_major, @majors, :id, :name %>
+              <% end%>
           </div>   
-        <% end %>
+        <% end%>
       <% end %>
     </p>
     <p>

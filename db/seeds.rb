@@ -27,7 +27,6 @@ Profile.create!(first_name:"john", last_name:"doe", user:User.second)
 Qualification.create!(name:"Lmus", weight:10)
 Qualification.create!(name:"Amus", weight:20)
 Qualification.create!(name:"Bmus", weight:30)
-Qualification.create!(name:"Bmus", weight:40)
 
 # setup base majors
 Major.create!(name:"Piano Performance")

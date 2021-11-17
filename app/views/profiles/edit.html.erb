@@ -1,18 +1,18 @@
 <div class="container-sm">
-  <%= form_with model: @profile, url: show_profile_path(@profile), method: :put, local: true  do |f| %>
+  <%= form_with model: @profile do |f| %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <p>
       <%= f.label :first_name %>
-      <%= f.text_field :first_name, value: @profile.first_name %>
+      <%= f.text_field :first_name %>
     </p>
     <p>
       <%= f.label :last_name %>
-      <%= f.text_field :last_name, value: @profile.last_name %>
+      <%= f.text_field :last_name %>
     </p>
     <p>
       <%= f.label :phone %>
-      <%= f.telephone_field :phone, value: @profile.phone %>
+      <%= f.telephone_field :phone %>
     </p>
     <p>
       <%= f.label :blurb %>
@@ -23,14 +23,15 @@
       <%= f.file_field :picture, placeholder: "title"%>
     </p>
     <p>
-      <%= f.label :qualifications %>
-      <%= fields_for :qualification_ids do |nested_form| %>
-        <% @qualifications.each do |qual| %>
-          <div>
-            <%= nested_form.label qual.name %>
-            <%= nested_form.check_box qual.id %>
-            <%= nested_form.select(qual.id, @majors.map {|m| [m.name, m.id]}) %>
-          </div>   
+       <%= fields_for :profile_qualifications do |nested_form| %>
+        <% @qualifications.each do |q| %>
+        <div>
+            <%= nested_form.label q.name %>
+            <%= nested_form.check_box q.id, checked: current_user.profile.has_qualification?(q.id) %>
+            <%= fields_for "#{q.id}" do |nf| %>
+              <%= nf.collection_select :qualification_major, @majors, :id, :name, selected: current_user.profile.get_qualification_major(q.id) %>
+            <% end%>
+        </div>   
         <% end %>
       <% end %>
     </p>

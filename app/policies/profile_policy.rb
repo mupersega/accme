@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class ProfilePolicy
-  attr_reader :user, :record
+  attr_reader :user, :profile
 
-  def initialize(user, record)
+  def initialize(user, profile)
     @user = user
-    @record = record
+    @profile = profile
   end
 
   def index?
@@ -13,11 +13,15 @@ class ProfilePolicy
   end
 
   def show?
-    false
+    true
   end
 
   def create?
-    false
+    if @user.profile.nil?
+      true
+    else
+      false
+    end
   end
 
   def new?
@@ -25,7 +29,12 @@ class ProfilePolicy
   end
 
   def update?
-    false
+    raise
+    if @user.id == @profile.user_id
+      return true
+    else
+      return false
+    end
   end
 
   def edit?
@@ -34,6 +43,10 @@ class ProfilePolicy
 
   def destroy?
     false
+  end
+
+  def delete?
+    update?
   end
 
   class Scope

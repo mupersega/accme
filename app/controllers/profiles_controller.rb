@@ -1,6 +1,8 @@
 class ProfilesController < ApplicationController
-  before_action :prep_profile, only: [:show, :edit, :update]
+  before_action :prep_profile, only: [:show, :edit, :update, :delete]
   before_action :prep_qualifications, only: [:edit, :new]
+  before_action :authenticate_user!, except: :index
+  before_action :check_auth
 
   def index
     @profiles = Profile.all
@@ -10,19 +12,26 @@ class ProfilesController < ApplicationController
   end
 
   def new
+    @profile = Profile.new
   end
 
   def create
     @profile = Profile.new(profile_params)
     @profile.user = current_user
-    raise
-    begin
-      @profile.save!
-      redirect_to profile_show_path(@profile.id)
-    rescue
-      flash.now[:errors] = @profile.errors.messages.values.flatten
-      render 'new'
+
+    params[:profile_qualifications].each do | key, value|
+      if value == "1"
+        @profile.profile_qualifications.new(qualification_id:key, major_id:params[key][:qualification_major])
+      end
     end
+    @profile.save!
+    # begin
+    #   @profile.save!
+    #   redirect_to profile_show_path(@profile.id)
+    # rescue
+    #   flash.now[:errors] = @profile.errors.messages.values.flatten
+    #   render 'new'
+    # end
   end
 
   def edit
@@ -31,9 +40,8 @@ class ProfilesController < ApplicationController
 
   def update
     @profile.update(profile_params)
-    ProfileQualification.destroy_by(profile_id: @profile.id)
-    params[:qualification_ids].each do | qual_id, maj_id|
-      ProfileQualification.create(profile_id:@profile.id, qualification_id:qual_id, major_id:maj_id)
+    params[:profile_qualifications].each do | qual_id, chosen|
+      ProfileQualification.create(profile_id:@profile.id, qualification_id:qual_id, major_id:params[qual_id]) if chosen
     end
     redirect_to root_path
     # begin
@@ -49,6 +57,11 @@ class ProfilesController < ApplicationController
     # end
   end
 
+  def delete
+    @profile.delete
+    redirect_to root_path
+  end  
+
   private
 
   def profile_params
@@ -62,6 +75,10 @@ class ProfilesController < ApplicationController
   def prep_qualifications
     @qualifications = Qualification.all
     @majors = Major.all
+  end
+
+  def check_auth
+    authorize @profile || Profile
   end
 
 end
