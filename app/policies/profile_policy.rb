@@ -29,7 +29,6 @@ class ProfilePolicy
   end
 
   def update?
-    raise
     if @user.id == @profile.user_id
       return true
     else
@@ -39,10 +38,6 @@ class ProfilePolicy
 
   def edit?
     update?
-  end
-
-  def destroy?
-    false
   end
 
   def delete?

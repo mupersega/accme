@@ -1,8 +1,8 @@
 class Profile < ApplicationRecord
-belongs_to :user
+  belongs_to :user
   has_many :profile_qualifications, dependent: :destroy
   has_many :qualifications, through: :profile_qualifications
-  accepts_nested_attributes_for :profile_qualifications
+  # accepts_nested_attributes_for :profile_qualifications
 
   validates :first_name, presence: true
   validates :last_name, presence: true

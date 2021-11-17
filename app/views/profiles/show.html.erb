@@ -17,5 +17,11 @@
     <%= Major.find(qual.major_id).name == "undisclosed" ? "" : " in #{ Major.find(qual.major_id).name }" %>
   </p>
 <% end %>
-<%= link_to "edit my profile", edit_profile_path %>
-<%= link_to "delete my profile", delete_profile_path(@profile.id) %>
+<% if policy(@profile).update? %>
+  |
+  <%= link_to "edit", edit_profile_path %>
+<% end %>
+<% if policy(@profile).delete? %>
+  |
+  <%= link_to "delete", @profile, method: :delete, data: { confirm: "Are you sure?" } %>
+<% end %>

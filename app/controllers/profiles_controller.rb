@@ -40,6 +40,7 @@ class ProfilesController < ApplicationController
 
   def update
     @profile.update(profile_params)
+    ProfileQualification.destroy_by(profile_id:@profile.id)
     params[:profile_qualifications].each do | qual_id, chosen|
       ProfileQualification.create(profile_id:@profile.id, qualification_id:qual_id, major_id:params[qual_id]) if chosen
     end
