@@ -18,6 +18,14 @@ class Profile < ApplicationRecord
       return false
     end
   end
+  
+  def has_any_qualifications?
+    begin
+      return profile_qualifications.length > 0
+    rescue
+      return false
+    end
+  end
 
   def get_qualification_major(qualification_id)
     begin

@@ -15,6 +15,10 @@
       <%= f.telephone_field :phone, placeholder: "mobile or home phone"%>
     </p>
     <p>
+      <%= f.label :contactable %>
+      <%= f.check_box :contactable %>
+    </p>
+    <p>
       <%= f.label :picture %>
       <%= f.file_field :picture, placeholder: "profile picture"%>
     </p>

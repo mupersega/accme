@@ -1,11 +1,17 @@
 <div class="container-sm">
-  <h1>
-    <%= @profile.first_name %>
-    <%= @profile.last_name %>
-  </h1>
+  <section ID="profile_title">
+    <h1>
+      <%= @profile.first_name %>
+      <%= @profile.last_name %>
+    </h1>
     <% if @profile.id == current_user.profile.id %>
       <em>(this is your profile)</em>
     <% end %>
+    <% if @profile.contactable %>
+      <p>Email: <%= @profile.user.email %></p>
+      <p>Phone: <%= @profile.phone %></p>
+    <% end %>
+  </section>
   <div>
     <% if @profile.picture.attached? %>
       <%= cl_image_tag @profile.picture.key, cloud_name: "dbsmyugus", crop: :scale, width: 200 %>
@@ -13,19 +19,26 @@
       <%= image_tag "load_profile.png", width: 200 %>
     <% end %>
   </div>
-  <p>
-    Email: <%= @profile.user.email %>
-  </p>
-  <h2>
-    Qualifications
-  </h2>
-  <% @profile.profile_qualifications.each do |qual| %>
-    <p>
-      <%= Qualification.find(qual.qualification_id).name %>
-      <%= Major.find(qual.major_id).name == "Undisclosed" ? "" : " in #{ Major.find(qual.major_id).name }" %>
-    </p>
-  <div>
+  <section ID="about_me">
+    <h4>About me:</h4>
+    <p> <%= @profile.blurb %> </p>
+  </section>
+  <section ID="qualifications">
+    <% if @profile.has_any_qualifications? %>
+      <h3> Qualifications: </h3>
+      <% @profile.profile_qualifications.each do |qual| %>
+        <ul>
+          <li>
+            <%= Qualification.find(qual.qualification_id).name %>
+            <%= Major.find(qual.major_id).name == "Undisclosed" ? "" : " in #{ Major.find(qual.major_id).name }" %>
+          </li>
+        </ul>
+      <% end %>
+    <% elsif policy(@profile).update? %>
+      <p class="announce">You have listed no qualifications, please edit your profile and include appropriate qualifications. You may leave this section blank and describe your qualifications in your "about me" section, however this may affect your visibility to users. <em>this message is not visible to viewers of your profile</em></p>
     <% end %>
+  </section>
+  <div>
     <%= link_to "Back", root_path %>
     <% if policy(@profile).update? %>
       |

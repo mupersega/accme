@@ -10,8 +10,13 @@
           <h5 class="card-title">
             <%= "#{p.first_name} #{p.last_name}" %>
           </h5>
+          <h6 class="card-title">
+            <%= p.profile_qualifications.length if p.has_any_qualifications? %>
+          </h6>
           <p class="card-text">
-            <%= p.blurb.length > 60 ? "#{p.blurb[0..55]}..." : "#{p.blurb}" %>
+            <% if p.blurb != nil %>
+              <%= p.blurb.length > 60 ? "#{p.blurb[0..55]}..." : "#{p.blurb}" %>
+            <% end %>
           </p>
           <% if current_user == nil %>
             <%= link_to "sign in to learn more", profile_path(p.id), class: 'btn btn-primary align-center justify-bottom border' %>
