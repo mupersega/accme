@@ -29,7 +29,7 @@ class ProfilePolicy
   end
 
   def update?
-    if @user.id == @profile.user_id
+    if @user.id == @profile.user_id || @user.has_role?(:admin)
       return true
     else
       return false
@@ -40,7 +40,7 @@ class ProfilePolicy
     update?
   end
 
-  def delete?
+  def destroy?
     update?
   end
 

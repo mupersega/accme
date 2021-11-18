@@ -8,5 +8,5 @@ Rails.application.routes.draw do
   patch "/profiles/:id", to: "profiles#update"
   get "/profiles/:id", to: "profiles#show", as: 'profile'
   post "/profiles", to: "profiles#create"
-  delete "/profiles/:id", to: "profiles#delete", as: 'delete_profile'
+  delete "/profiles/:id", to: "profiles#destroy", as: 'destroy_profile'
 end

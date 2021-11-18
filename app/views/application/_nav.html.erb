@@ -2,7 +2,7 @@
   <ul class="nav nav-tabs">
     <li role="presentation" class="active">
       <a href="#">
-        <%= link_to "home", root_path %>
+        <%= link_to "Find", root_path %>
          |
       </a>
     </li>
@@ -10,11 +10,11 @@
       <a href="#">
         <% if user_signed_in? %>
           <% if current_user.profile %>
-            <%= link_to "my account", profile_path(current_user.profile.id) %>
+            <%= link_to "My Accompanist Profile", profile_path(current_user.profile.id) %>
           |
-            <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+            <%= link_to "Logout(#{current_user.email})", destroy_user_session_path, method: :delete %>
           <% else %>
-            <%= link_to "new account", profiles_new_path %>
+            <%= link_to "Create Accompanist Profile", profiles_new_path %>
           <% end %>
           |
         <% else %>

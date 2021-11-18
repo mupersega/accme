@@ -11,9 +11,8 @@ User.destroy_all
 Major.destroy_all
 Qualification.destroy_all
 
-# setup an admin
-admin = User.create!(email:"admin@admin.com", password:"admin")
-Profile.create!(first_name:"admin", last_name:"admin", user:admin)
+# setup an admin with no profile
+admin = User.create!(email:"admin@admin.com", password:"admins")
 admin.add_role(:admin)
 
 # setup placeholders
