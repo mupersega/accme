@@ -1,4 +1,6 @@
-class MessageController < ApplicationController
+class MessagesController < ApplicationController
+  before_action :authenticate_user!
+
   def new
     @message = Message.new()
   end
@@ -13,7 +15,9 @@ class MessageController < ApplicationController
   #     flash.now[:errors] = @message.errors.messages.values.flatten
   #     render 'new'
   #   end
-    @message = Message.new(profile_params)
+    @message = Message.new(message_params)
+    @message.sender = current_user
+    @message.receiver_id = Profile.find(params[:id]).user_id
     @message.seen = false
     @message.save!
     redirect_to root_path
@@ -35,10 +39,6 @@ class MessageController < ApplicationController
 
   def prep_message
     @message = Message.find(params[:id])
-  end
-
-  def check_auth
-    authorize @message || Message
   end
 
 end

@@ -1,5 +1,5 @@
-<h1>New message</h1>
-<%= form_with model: @message do |f| %>
+<div>
+  <%= form_with model: @message, url: create_message_path(params[:id]) do |f| %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <p>
@@ -10,3 +10,4 @@
     <%= f.submit %>
     </p>
   <% end %>
+</div>

@@ -11,12 +11,12 @@
         <% if user_signed_in? %>
           <% if current_user.profile %>
             <%= link_to "My Accompanist Profile", profile_path(current_user.profile.id) %>
-          |
-            <%= link_to "Logout(#{current_user.email})", destroy_user_session_path, method: :delete %>
+            |
           <% else %>
             <%= link_to "Create Accompanist Profile", profiles_new_path %>
           <% end %>
           |
+          <%= link_to "Logout(#{current_user.email})", destroy_user_session_path, method: :delete %>
         <% else %>
           <%= link_to 'Login', new_user_session_path %>
           |

@@ -1,8 +1,4 @@
-Rails.application.routes.draw do
-  get 'message/new'
-  get 'message/create'
-  get 'message/update'
-  get 'message/delete'
+Rails.application.routes.draw do 
   devise_for :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root to: "profiles#index"
@@ -16,7 +12,8 @@ Rails.application.routes.draw do
   delete "/profiles/:id", to: "profiles#destroy", as: 'destroy_profile'
   
   # MESSAGE ROUTES
-  get "/messages/new", to: "messages#new"
+  get "/profiles/:id/messages/new", to: "messages#new", as: "messages_new"
+  post "/profiles/:id/messages", to: "messages#create", as: 'create_message'
   patch "/messages/:id", to: "messages#update"
   delete "/messages/:id", to: "messages#destroy", as: 'destroy_message'
 end

@@ -10,6 +10,8 @@
     <% if @profile.contactable %>
       <p>Email: <%= @profile.user.email %></p>
       <p>Phone: <%= @profile.phone %></p>
+    <% else %>
+      <%= link_to "make contact", messages_new_path %>
     <% end %>
   </section>
   <div>
