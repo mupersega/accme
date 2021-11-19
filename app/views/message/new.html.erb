@@ -1,0 +1,12 @@
+<h1>New message</h1>
+<%= form_with model: @message do |f| %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <p>
+      <%= f.label :content %>
+      <%= f.text_field :content, placeholder: "Leave your message for the accompanist here..."%>
+    </p>
+    <p>
+    <%= f.submit %>
+    </p>
+  <% end %>

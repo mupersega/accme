@@ -18,14 +18,18 @@ class ProfilesController < ApplicationController
   def create
     @profile = Profile.new(profile_params)
     @profile.user = current_user
-
     params[:profile_qualifications].each do | key, value|
       if value == "1"
         @profile.profile_qualifications.new(qualification_id:key, major_id:params[key][:qualification_major])
       end
     end
-    @profile.save!
-    redirect_to root_path
+    begin
+      @profile.save!
+      redirect_to root_path
+    rescue => exception
+      flash.now[:errors] = @book.errors.messages.values.flatten
+      render 'new'
+    end
   end
 
   def edit
@@ -41,7 +45,6 @@ class ProfilesController < ApplicationController
       end
     end
     @profile.save
-    # raise
     redirect_to profile_path(@profile.id)
   end
 

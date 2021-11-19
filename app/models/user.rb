@@ -3,6 +3,10 @@ class User < ApplicationRecord
   rolify
 
   has_one :profile
+
+  has_many :messages_received, class_name: "Message", foreign_key: :receiver
+  has_many :messages_sent, class_name: "Message", foreign_key: :sender
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
