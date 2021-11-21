@@ -1,6 +1,6 @@
   <div class="card-group" >
     <% @profiles.each do | p | %>
-      <div class="card m-1 border" style="max-width: 200px;">
+      <div class="card m-1 border" style="max-width: 200px; min-width: 200px;">
           <% if p.picture.attached? %>
             <%= cl_image_tag p.picture.key, cloud_name: "dbsmyugus", crop: :scale, width: 200, class: 'card-img-top'%>
           <% else %>
@@ -11,7 +11,7 @@
             <%= "#{p.first_name} #{p.last_name}" %>
           </h5>
           <h6 class="card-title">
-            <%= p.profile_qualifications.length if p.has_any_qualifications? %>
+            <%= "#{p.profile_qualifications.length} qualifications" if p.has_any_qualifications? %>
           </h6>
           <p class="card-text">
             <% if p.blurb != nil %>

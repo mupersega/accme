@@ -18,14 +18,23 @@ admin.add_role(:admin)
 # setup placeholders
 User.create!(email:"a@b.com", password:"abc123")
 User.create!(email:"b@c.com", password:"abc123")
+User.create!(email:"d@b.com", password:"abc123")
+User.create!(email:"d@c.com", password:"abc123")
+User.create!(email:"a@f.com", password:"abc123")
+User.create!(email:"f@c.com", password:"abc123")
 
-Profile.create!(first_name:"cam", last_name:"tee", user:User.first)
-Profile.create!(first_name:"john", last_name:"doe", user:User.second)
+Profile.create!(first_name:"caafm", last_name:"tesde", user:User.find(1), blurb:"lorem ipsum dolor sit amet")
+Profile.create!(first_name:"jnasdf", last_name:"dodfe", user:User.find(2), blurb:"lorem ipsum dolor sit amet")
+Profile.create!(first_name:"jenasdfy", last_name:"reafn", user:User.find(3), blurb:"lorem ipsum dolor sit amet")
+Profile.create!(first_name:"gordoan", last_name:"doasdfe", user:User.find(4), blurb:"lorem ipsum dolor sit amet")
+Profile.create!(first_name:"cynthdfia", last_name:"upaafo", user:User.find(5), blurb:"lorem ipsum dolor sit amet")
+Profile.create!(first_name:"adriaasn", last_name:"roberts", user:User.find(6), blurb:"lorem ipsum dolor sit amet")
 
 # setup base qualifications
 Qualification.create!(name:"Lmus", weight:10)
 Qualification.create!(name:"Amus", weight:20)
 Qualification.create!(name:"Bmus", weight:30)
+Qualification.create!(name:"PhD", weight:20)
 
 # setup base majors
 Major.create!(name:"Piano Performance")
