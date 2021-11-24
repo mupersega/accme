@@ -15,30 +15,68 @@ Qualification.destroy_all
 admin = User.create!(email:"admin@admin.com", password:"admins")
 admin.add_role(:admin)
 
-# setup placeholders
-User.create!(email:"a@b.com", password:"abc123")
-User.create!(email:"b@c.com", password:"abc123")
-User.create!(email:"d@b.com", password:"abc123")
-User.create!(email:"d@c.com", password:"abc123")
-User.create!(email:"a@f.com", password:"abc123")
-User.create!(email:"f@c.com", password:"abc123")
+images = [
+  "db/seed_images/29.jpg",
+  "db/seed_images/47.jpg",
+  "db/seed_images/70.jpg",
+  "db/seed_images/73.jpg",
+  "db/seed_images/77.jpg",
+  "db/seed_images/82.jpg"
+]
 
-Profile.create!(first_name:"caafm", last_name:"tesde", user:User.find(1), blurb:"lorem ipsum dolor sit amet")
-Profile.create!(first_name:"jnasdf", last_name:"dodfe", user:User.find(2), blurb:"lorem ipsum dolor sit amet")
-Profile.create!(first_name:"jenasdfy", last_name:"reafn", user:User.find(3), blurb:"lorem ipsum dolor sit amet")
-Profile.create!(first_name:"gordoan", last_name:"doasdfe", user:User.find(4), blurb:"lorem ipsum dolor sit amet")
-Profile.create!(first_name:"cynthdfia", last_name:"upaafo", user:User.find(5), blurb:"lorem ipsum dolor sit amet")
-Profile.create!(first_name:"adriaasn", last_name:"roberts", user:User.find(6), blurb:"lorem ipsum dolor sit amet")
+first_names = %w[Jenny Trina Josie Cecelia Meryl Elspeth Eda Willie Scot Elwood Glenn Barnabas Weatherby Lennox Maris Margh Carlo]
+last_names = %w[Wyatt Noble Heath Lamb Jacobs Owen Leblanc Goodwin Choi Daniels Barr Gardner]
 
-# setup base qualifications
-Qualification.create!(name:"Lmus", weight:10)
-Qualification.create!(name:"Amus", weight:20)
-Qualification.create!(name:"Bmus", weight:30)
-Qualification.create!(name:"PhD", weight:20)
+lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sit amet efficitur augue, condimentum tincidunt risus. Nulla sagittis venenatis elit sed egestas. Nullam quis mattis justo. Sed sollicitudin purus neque. Vestibulum feugiat arcu et ex molestie, non pellentesque massa convallis. Praesent ut quam erat. Curabitur diam purus, viverra eu diam quis, semper laoreet velit. Vestibulum bibendum vulputate diam quis scelerisque. Ut luctus eros sit amet urna semper interdum. Curabitur mattis ultrices dui id euismod. Donec lobortis lectus id cursus blandit. Vivamus massa ligula, gravida nec dui a, porttitor rutrum augue. Vestibulum tempor condimentum erat eu fringilla. Pellentesque habitant morbi tristique."
 
-# setup base majors
-Major.create!(name:"Piano Performance")
-Major.create!(name:"Piano Accompaniment")
-Major.create!(name:"Violin")
-Major.create!(name:"Piano")
-Major.create!(name: "Undisclosed")
+#  Setup Qualifications
+qualification_names = {
+  Lmus: 10,
+  Amus: 20,
+  Bmus: 30,
+  PhD: 20
+}
+qualification_names.each { |k, v| Qualification.create!(name:k, weight:v) }
+
+# Setup Majors
+major_names = [
+  "Undisclosed",
+  "Piano",
+  "Violin",
+  "Piano Performance",
+  "Piano Accompaniment"
+]
+major_names.each { |name| Major.create!(name:name) }
+
+qualifications = Qualification.all.map {|obj| obj[:name]}
+majorslist = Major.all
+
+# Build random accompanist profiles for each available profile images.
+images.each_with_index do |path, i|
+  quals = qualifications.dup
+  first = first_names.sample()
+  last = last_names.sample()
+  # create USER
+  new_user = User.create(
+    email:"acc#{i}@user.com",
+    password:"password")
+  # create PROFILE
+  profile = Profile.create!(
+    user: new_user,
+    first_name:first,
+    last_name:last,
+    phone:"0400 123 123",
+    blurb:lorem[0..rand(480)],
+    contactable: rand(2) == 1 ? true : false,
+    picture: {io: File.open(Rails.root.join(path)), filename: "foo.jpg"}
+  )
+  # set profile's QUALIFICATION info
+  rand(0..quals.length).times do |i|
+    quals.shuffle()
+    ProfileQualification.create!(
+      profile: profile,
+      major: Major.all.sample,
+      qualification: Qualification.find_by(name: quals.pop())
+    )
+  end
+end

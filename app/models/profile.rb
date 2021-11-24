@@ -42,5 +42,13 @@ class Profile < ApplicationRecord
     end
   end
 
+  def has_phone?
+    begin
+      phone != nil
+      return true
+    rescue
+      false
+    end
+  end
 
 end
