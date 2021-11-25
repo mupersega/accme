@@ -42,6 +42,9 @@
     </div>
     <div class="row">
       <div class="col">
+        <% if current_user.has_role?(:admin) %>
+          <h5 class="announce">NOTE: CURRENTLY SIGNED IN AS ADMIN</h5>
+        <% end %>
         <h5>About me:</h5>
         <p><%= @profile.blurb %></p>
       </div>
@@ -51,49 +54,32 @@
       <% if @profile.users_profile? %>
         <h4>My Profile</h4>
         <% if @profile.has_any_qualifications? == false %>
-          <p class="announce">Notice: please load qualifications as soon as possible</p>
+          <p class="announce">Notice: please load qualifications as soon as possible.</p>
         <% end %>
       <% end %>
     </div>
   </div>
-  <div class="row">
-    <div class="col">
-      <h5>My contact requests</h5>
-      <table>
-        <% if policy(@profile).update? %>
-          <% @profile.user.messages_received.unseen.each do |msg| %>
-            <tr>
-              <td><%= msg.sender.email %></td>
-              <td><%= msg.content %></td>
-              <td><%= link_to "clear", update_message_path(msg.id), method: :patch %></td>
-              <% if current_user.has_role?(:admin) %>
-                <td><%= link_to "admin delete", update_message_path(msg.id), method: :patch %></td>
-                <% redirect_to "next" %>
-              <% end %>
-            </tr>
-          <% end %>
+  <% if policy(@profile).update? %>
+    <div class="row">
+      <div class="col">
+        <h5>My contact requests</h5>
+        <% if @profile.user.messages_received.unseen.count == 0 %>
+          <p>You currently have no contact requests.</p>
+        <% else %>
+          <table>
+            <% @profile.user.messages_received.unseen.each do |msg| %>
+              <tr>
+                <td><%= msg.sender.email %></td>
+                <td><%= msg.content %></td>
+                <td><%= link_to "clear", update_message_path(msg.id), method: :patch, class:"btn" %></td>
+                <% if current_user.has_role?(:admin) %>
+                  <td><%= link_to "DELETE MESSAGE(ADMIN)", destroy_message_path(msg.id), method: :patch %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          </table>
         <% end %>
-      </table>
+      </div>
     </div>
-  </div>
-  
-  <div>
-    <nav>
-      <% if policy(@profile).update? %>
-        <%= link_to "Edit ", edit_profile_path %>
-      <% end %>
-      <% if policy(@profile).destroy? %>
-        <%= link_to " Delete profile", @profile, method: :delete, data: { confirm: "Are you sure?" } %>
-        <% if current_user.has_role?(:admin) %>
-          |
-          <%= link_to "ADMIN: Delete profile", @profile, method: :delete, data: { confirm: "Are you sure?" } %>
-        <% end %>
-      <% end %>
-    </nav>
-    <nav>
-      <%= link_to "previous", profile_path(@previous_profile_id) %>
-      <%= link_to "home", root_path %>
-      <%= link_to "next", profile_path(@next_profile_id) %>
-    </nav>
-  </div>
+  <% end %>
 </div>
