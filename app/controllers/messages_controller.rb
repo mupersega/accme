@@ -1,5 +1,5 @@
 class MessagesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!  
 
   def new
     @message = Message.new()
@@ -19,22 +19,29 @@ class MessagesController < ApplicationController
     @message.sender = current_user
     @message.receiver_id = Profile.find(params[:id]).user_id
     @message.seen = false
-    @message.save!
-    redirect_to root_path
+    begin
+      @message.save!
+      redirect_to root_path
+    rescue
+      flash.now[:errors] = @message.errors.messages.values.flatten
+      render 'new'
+    end
+   
   end
 
   def update
+    Message.find(params[:id]).update(seen: true)
   end
 
   def destroy
-    @profile.destroy
+    Message.find(params[:id]).destroy
     redirect_to root_path
   end
 
   private
 
   def message_params
-    params.require(:message).permit(:sender_id, :receiver_id, :seen, :content)
+    params.require(:message).permit(:sender_id, :receiver_id, :seen, :content, :id)
   end
 
   def prep_message

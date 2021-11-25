@@ -1,3 +1,32 @@
 <div class="container-sm">
-  <%= render partial: 'accompanist_cards' %>
+  <div class="header sticky-top">
+    <%= render "title" %>
+    <%= render "nav" %>
+  </div>
+  <div id="welcome">
+      <% if flash[:errors] %>
+        <section id="errors">
+          <% flash[:errors].each do |error| %>
+            <p><%= error %></p>
+          <% end %>
+        </section>
+      <% end %>
+      <% if flash[:alert] %>
+        <p class="alert"><%= alert %></p>
+      <% end %>
+      <% if flash[:notice] %>
+        <p class="notice"><%= notice %></p>
+      <% end %>
+    <p id="welcome-message" >Welcome! Here you'll find all our available accompanists.</p>
+    <% if user_signed_in? %>
+      <% if current_user.profile == nil %>
+        <p>
+        If YOU are an accompanist, <%= link_to "setup your accompanist profile", profiles_new_path %>.
+        </p>
+      <% end %>
+    <% else %>
+      <p><%= link_to "Sign in", new_user_session_path %> to make contact!</p>
+    <% end %>
+  </div>
+<%= render partial: 'accompanist_cards' %>
 </div>

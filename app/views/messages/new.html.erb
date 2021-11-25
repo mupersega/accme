@@ -1,3 +1,6 @@
-<h1>New message</h1>
-
-<%= render partial: "new_message_form" %>
+<div class="container-sm">
+  <p>
+    Leave a message for <%= Profile.find(params[:id]).first_name.capitalize() %> with information as to why you would like to make contact, make it as detailed as you can in less than 200 characters. Please note that an accompanist may or may not contact you back.
+  </p>
+  <%= render partial: "new_message_form" %>
+</div>

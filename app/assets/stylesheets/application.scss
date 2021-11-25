@@ -13,7 +13,86 @@
 
 @import "bootstrap";
 
-// sign up error colors
-#error_explanation {
-  color: red;
+#profile-header {
+  display: flex;
+  flex-flow: wrap;
+  color: rgb(21, 31, 33);
 }
+
+#profile-body {
+  background-color: rgb(21, 31, 33);
+  color: white;
+}
+#show-icon {
+  display: inline;
+  flex-direction: flex-start;
+}
+
+.announce {
+  color: rgb(233, 199, 63);
+  background-color: rgb(21, 31, 33);
+}
+.actions {
+  margin-top: 10px;
+}
+
+.notice {
+  color: brown;
+}
+
+.card {
+  background-color: rgb(21, 31, 33);
+}
+
+.card-title {
+  color: rgb(233, 199, 63);
+}
+
+.card-text {
+  color: white;
+}
+
+.btn {
+  background-color: rgb(233, 199, 63);
+  border-color: white;
+  justify-self: center;
+  &:hover {
+    filter: drop-shadow(2px 2px 5px white);
+  }
+}
+
+.header {
+  background-color: white;
+}
+
+#welcome {
+  display: flex;
+  justify-content: center;
+}
+
+.card-group {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.qual-count {
+  color: rgb(237, 233, 206);
+}
+
+@media (max-width: 576px) {
+  .card {
+    display: block;
+    // justify-self: center;
+  }
+  .container-sm {
+    display: inline-block;
+  }
+  .card-group {
+    flex-wrap: wrap;
+  }
+  .qual-count {
+    color: rgb(237, 233, 206);
+  }
+}
+
+// @include media-breakpoint-up;

@@ -11,18 +11,6 @@
   </head>
 
   <body>
-    <% if flash[:errors] %>
-      <section id="errors">
-        <% flash[:errors].each do |error| %>
-          <p><%= error %></p>
-        <% end %>
-      </section>
-    <% end %>
-    <% if alert %>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-    <% end %>
-    <%= render "nav" %>
-    <%= yield %>
+      <%= yield %>
   </body>
 </html>

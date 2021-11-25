@@ -14,6 +14,6 @@ Rails.application.routes.draw do
   # MESSAGE ROUTES
   get "/profiles/:id/messages/new", to: "messages#new", as: "messages_new"
   post "/profiles/:id/messages", to: "messages#create", as: 'create_message'
-  patch "/messages/:id", to: "messages#update"
+  patch "/messages/:id", to: "messages#update", as: 'update_message'
   delete "/messages/:id", to: "messages#destroy", as: 'destroy_message'
 end

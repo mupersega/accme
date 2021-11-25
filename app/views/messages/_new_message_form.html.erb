@@ -1,12 +1,15 @@
 <div>
   <%= form_with model: @message, url: create_message_path(params[:id]) do |f| %>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <p>
-      <%= f.label :content %>
-      <%= f.text_field :content, placeholder: "Leave your message for the accompanist here..."%>
-    </p>
-    <p>
+    <% if flash[:alert] %>
+      <p class="alert"><%= alert %></p>
+    <% end %>
+    <% if flash[:notice] %>
+      <p class="notice"><%= notice %></p>
+    <% end %>
+    <div class="field">
+      <%= f.label "Message" %><br />
+      <%= f.text_area :content, placeholder: "Insert message here...", size: "60x8"%>
+    </div>
     <%= f.submit %>
     </p>
   <% end %>

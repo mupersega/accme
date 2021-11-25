@@ -1,29 +1,28 @@
-<div class="container-sm">
-  <ul class="nav nav-tabs">
-    <li role="presentation" class="active">
-      <a href="#">
-        <%= link_to "Find", root_path %>
-         |
-      </a>
-    </li>
-    <li role="presentation">
-      <a href="#">
-        <% if user_signed_in? %>
-          <% if current_user.profile %>
-            <%= link_to "My Accompanist Profile", profile_path(current_user.profile.id) %>
-            |
-          <% else %>
-            <%= link_to "Create Accompanist Profile", profiles_new_path %>
-          <% end %>
-          |
-          <%= link_to "Logout(#{current_user.email})", destroy_user_session_path, method: :delete %>
-        <% else %>
-          <%= link_to 'Login', new_user_session_path %>
-          |
-          <%= link_to 'Sign Up', new_user_registration_path %>
-          |
-        <% end %>
-      </a>
-    </li>
-  </ul>
-</div>
+
+<ul class="nav nav-tabs d-flex justify-content-center">
+  <li role="presentation" class="p-1">
+    <%= link_to "Find", root_path %>
+  </li>
+    <% if user_signed_in? %>
+      <% if current_user.profile %>
+        <li role="presentation" class="p-1">
+          <%= link_to "My Accompanist Profile", profile_path(current_user.profile.id) %>
+        </li>
+      <% else %>
+        <li role="presentation" class="p-1">
+          <%= link_to "Create Accompanist Profile", profiles_new_path %>
+        </li>
+      <% end %>
+      <li role="presentation" class="p-1">
+        <%= link_to "Logout(#{current_user.email})", destroy_user_session_path, method: :delete %>
+      </li>
+    <% else %>
+      <li role="presentation" class="p-1">
+        <%= link_to 'Login', new_user_session_path %>
+      </li>
+      <li role="presentation" class="p-1">
+        <%= link_to 'Sign Up', new_user_registration_path %>
+      </li>
+
+    <% end %>
+</ul>

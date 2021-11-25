@@ -1,29 +1,30 @@
-  <div class="card-group" >
-    <% @profiles.each do | p | %>
-      <div class="card m-1 border" style="max-width: 200px; min-width: 200px;">
-          <% if p.picture.attached? %>
-            <%= cl_image_tag p.picture.key, cloud_name: "dbsmyugus", crop: :scale, width: 200, class: 'card-img-top'%>
-          <% else %>
-            <%= image_tag "load_profile.png", width: 200 %>
+
+<div class="card-group container-sm" >
+  <% @profiles.each do | p | %>
+    <div class="card m-1 border" style="max-width: 200px; min-width: 200px;">
+        <% if p.picture.attached? %>
+          <%= cl_image_tag p.picture.key, cloud_name: "dbsmyugus", crop: :scale, width: 200, height: 200, class: 'card-img-top image-fluid'%>
+        <% else %>
+          <%= image_tag "icon-white-gold-blabkbg.jpg", width: 200, height: 200, class: 'card-img-top image-fluid' %>
+        <% end %>
+      <div class="card-body position-relative">
+        <h5 class="card-title">
+          <%= "#{p.first_name} #{p.last_name}" %>
+        </h5>
+        <h6 class="card-title qual-count">
+          <%= "#{p.profile_qualifications.length} qualifications" if p.has_any_qualifications? %>
+        </h6>
+        <p class="card-text">
+          <% if p.blurb != nil %>
+            <%= p.blurb.length > 60 ? "#{p.blurb[0..55]}..." : "#{p.blurb}" %>
           <% end %>
-        <div class="card-body">
-          <h5 class="card-title">
-            <%= "#{p.first_name} #{p.last_name}" %>
-          </h5>
-          <h6 class="card-title">
-            <%= "#{p.profile_qualifications.length} qualifications" if p.has_any_qualifications? %>
-          </h6>
-          <p class="card-text">
-            <% if p.blurb != nil %>
-              <%= p.blurb.length > 60 ? "#{p.blurb[0..55]}..." : "#{p.blurb}" %>
-            <% end %>
-          </p>
-          <% if current_user == nil %>
-            <%= link_to "sign in to learn more", profile_path(p.id), class: 'btn btn-primary align-center justify-bottom border' %>
-          <% else %>
-            <%= link_to "see profile", profile_path(p.id), class: 'btn btn-primary align-center justify-bottom' %>
-          <% end %>
-        </div>
+        </p>
+        <% if current_user == nil %>
+          <%= link_to "sign in to learn more", profile_path(p.id), class: 'btn align-self-end' %>
+        <% else %>
+          <%= link_to "see profile", profile_path(p.id), class: 'btn align-self-end justify-self-center' %>
+        <% end %>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
+</div>

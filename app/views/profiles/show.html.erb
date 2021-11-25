@@ -1,56 +1,99 @@
-<div class="container-sm">
-  <section ID="profile_title">
-    <h1>
-      <%= @profile.first_name %>
-      <%= @profile.last_name %>
-    </h1>
-    <% if @profile.users_profile? %>
-      <em>(this is your profile)</em>
-    <% elsif @profile.contactable %>
-      <p><%= " email: #{@profile.user.email}" %></p>
-      <p><%= "phone: #{@profile.phone}" if @profile.has_phone? %></p>
-    <% else %>
-      <%= link_to "make contact", messages_new_path %>
-    <% end %>
-  </section>
-  <div>
-    <% if @profile.picture.attached? %>
-      <%= cl_image_tag @profile.picture.key, cloud_name: "dbsmyugus", crop: :scale, width: 200 %>
-    <% else %>
-      <%= image_tag "load_profile.png", width: 200 %>
-    <% end %>
+<div class="container-sm" id="profile">
+  <div class="row" id="profile-header">
+    <div class="col-sm-auto">
+      <%= image_tag "GoldBlackAMicon.png", width: 100, id:"show-icon" %>
+    </div>
+    <div class="col-sm">
+      <h1 id="show-acc-name">
+        <%= @profile.first_name %>
+        <%= @profile.last_name %>
+      </h1>
+    </div>
   </div>
-  <section ID="about_me">
-    <h4>About me:</h4>
-    <p> <%= @profile.blurb %> </p>
-  </section>
-  <section ID="qualifications">
-    <% if @profile.has_any_qualifications? %>
-      <h3> Qualifications: </h3>
-      <% @profile.profile_qualifications.each do |qual| %>
-        <ul>
-          <li>
-            <%= Qualification.find(qual.qualification_id).name %>
-            <%= Major.find(qual.major_id).name == "Undisclosed" ? "" : " in #{ Major.find(qual.major_id).name }" %>
-          </li>
-        </ul>
+  <div id="profile-body">
+    <div class="row">
+      <div class="col-sm-auto">
+        <% if @profile.picture.attached? %>
+          <%= cl_image_tag @profile.picture.key, cloud_name: "dbsmyugus", crop: :scale, width: 150%>
+        <% else %>
+          <%= image_tag "load_profile.png", width: 150, class:"image-fluid"%>
+        <% end %>
+      </div>
+      <div class="col-sm">
+        <% if @profile.has_any_qualifications? %>
+          <h5> Qualifications: </h5>
+          <ul>
+            <% @profile.profile_qualifications.each do |qual| %>
+              <li>
+                <%= Qualification.find(qual.qualification_id).name %>
+                <%= Major.find(qual.major_id).name == "Undisclosed" ? "" : " in #{ Major.find(qual.major_id).name }" %>
+              </li>
+            <% end %>
+          </ul>
+          <% else %>
+            <p class="announce">This accompanist has listed NO qualifications and thus, may not be appropriate.</p>
+        <% end %>
+        <% if @profile.contactable %>
+          <p><%= " email: #{@profile.user.email}" %><%= " | phone: #{@profile.phone}" if @profile.has_phone?%></p>
+        <% else %>
+          <%= link_to "make contact", messages_new_path, class:"btn" %>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h5>About me:</h5>
+        <p><%= @profile.blurb %></p>
+      </div>
+    </div>
+  <div class="row">
+    <div class="col">
+      <% if @profile.users_profile? %>
+        <h4>My Profile</h4>
+        <% if @profile.has_any_qualifications? == false %>
+          <p class="announce">Notice: please load qualifications as soon as possible</p>
+        <% end %>
       <% end %>
-    <% elsif policy(@profile).update? %>
-      <p class="announce">You have listed no qualifications, please edit your profile and include appropriate qualifications. You may leave this section blank and describe your qualifications in your "about me" section, however this may affect your visibility to users. <em>this message is not visible to viewers of your profile</em></p>
-    <% end %>
-  </section>
-  <div>
-    <%= link_to "Back", root_path %>
-    <% if policy(@profile).update? %>
-      |
-      <%= link_to "Edit ", edit_profile_path %>
-    <% end %>
-    <% if policy(@profile).destroy? %>
-      |
-      <%= link_to " Delete profile", @profile, method: :delete, data: { confirm: "Are you sure?" } %>
-      <% if current_user.has_role?(:admin) %>
-        |
-        <%= link_to "ADMIN: Delete profile", @profile, method: :delete, data: { confirm: "Are you sure?" } %>
-      <% end %>
-    <% end %>
+    </div>
   </div>
+  <div class="row">
+    <div class="col">
+      <h5>My contact requests</h5>
+      <table>
+        <% if policy(@profile).update? %>
+          <% @profile.user.messages_received.unseen.each do |msg| %>
+            <tr>
+              <td><%= msg.sender.email %></td>
+              <td><%= msg.content %></td>
+              <td><%= link_to "clear", update_message_path(msg.id), method: :patch %></td>
+              <% if current_user.has_role?(:admin) %>
+                <td><%= link_to "admin delete", update_message_path(msg.id), method: :patch %></td>
+                <% redirect_to "next" %>
+              <% end %>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    </div>
+  </div>
+  
+  <div>
+    <nav>
+      <% if policy(@profile).update? %>
+        <%= link_to "Edit ", edit_profile_path %>
+      <% end %>
+      <% if policy(@profile).destroy? %>
+        <%= link_to " Delete profile", @profile, method: :delete, data: { confirm: "Are you sure?" } %>
+        <% if current_user.has_role?(:admin) %>
+          |
+          <%= link_to "ADMIN: Delete profile", @profile, method: :delete, data: { confirm: "Are you sure?" } %>
+        <% end %>
+      <% end %>
+    </nav>
+    <nav>
+      <%= link_to "previous", profile_path(@previous_profile_id) %>
+      <%= link_to "home", root_path %>
+      <%= link_to "next", profile_path(@next_profile_id) %>
+    </nav>
+  </div>
+</div>

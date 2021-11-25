@@ -61,6 +61,10 @@ class ProfilesController < ApplicationController
 
   def prep_profile
     @profile = Profile.find(params[:id])
+    current_index = Profile.all.index(@profile)
+    
+    @next_profile_id = Profile.all[(current_index + 1) % Profile.all.count].id
+    @previous_profile_id = Profile.all[(current_index - 1) % Profile.all.count].id
   end
 
   def prep_qualifications
