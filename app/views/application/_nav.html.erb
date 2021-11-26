@@ -1,27 +1,27 @@
 
 <ul class="nav nav-tabs d-flex justify-content-center">
   <li role="presentation" class="p-1">
-    <%= link_to "Find", root_path %>
+    <%= link_to "Home", root_path, class:"btn" %>
   </li>
     <% if user_signed_in? %>
       <% if current_user.profile %>
         <li role="presentation" class="p-1">
-          <%= link_to "My Accompanist Profile", profile_path(current_user.profile.id) %>
+          <%= link_to "My Accompanist Profile", profile_path(current_user.profile.id), class:"btn" %>
         </li>
       <% else %>
         <li role="presentation" class="p-1">
-          <%= link_to "Create Accompanist Profile", profiles_new_path %>
+          <%= link_to "Create Accompanist Profile", profiles_new_path, class:"btn" %>
         </li>
       <% end %>
       <li role="presentation" class="p-1">
-        <%= link_to "Logout(#{current_user.email})", destroy_user_session_path, method: :delete %>
+        <%= link_to "Logout(#{current_user.email})", destroy_user_session_path, method: :delete, class:"btn" %>
       </li>
     <% else %>
       <li role="presentation" class="p-1">
-        <%= link_to 'Login', new_user_session_path %>
+        <%= link_to 'Login', new_user_session_path, class:"btn" %>
       </li>
       <li role="presentation" class="p-1">
-        <%= link_to 'Sign Up', new_user_registration_path %>
+        <%= link_to 'Sign Up', new_user_registration_path, class:"btn" %>
       </li>
 
     <% end %>

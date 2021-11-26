@@ -13,6 +13,10 @@
 
 @import "bootstrap";
 
+#profile {
+  margin: 10px;
+  max-width: 700px;
+}
 #profile-header {
   display: flex;
   flex-flow: wrap;
@@ -20,6 +24,7 @@
 }
 
 #profile-body {
+  padding: 5px;
   background-color: rgb(21, 31, 33);
   color: white;
 }
@@ -28,6 +33,23 @@
   flex-direction: flex-start;
 }
 
+#show-acc-name {
+  align-self: end;
+}
+
+Table {
+  .email {
+    padding: 5px;
+    font-weight: bold;
+    color: rgb(233, 199, 63)
+  }
+
+  .content {
+    padding: 5px;
+    font-style: italic;
+  }
+
+}
 .announce {
   color: rgb(233, 199, 63);
   background-color: rgb(21, 31, 33);

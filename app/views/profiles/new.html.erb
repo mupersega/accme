@@ -15,16 +15,16 @@
       <%= f.telephone_field :phone, placeholder: "mobile or home phone"%>
     </p>
     <p>
-      <%= f.label :contactable %>
+      <%= f.label "Contact details visible?" %>
       <%= f.check_box :contactable %>
     </p>
     <p>
-      <%= f.label :picture %>
+      <%= f.label "Profile Picture" %>
       <%= f.file_field :picture, placeholder: "profile picture"%>
     </p>
     <p>
-      <%= f.label :blurb %>
-      <%= f.text_field :blurb, placeholder: "About me"%>
+      <%= f.label "About me:" %><br />
+      <%= f.text_area :blurb, placeholder: "Tell people who you are, your experience and why you would be a great choice for them. Max 500 characters.", size: "60x8" %>
     </p>
     <p>
       <%= fields_for :profile_qualifications do |nested_form| %>

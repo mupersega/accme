@@ -11,8 +11,8 @@ User.destroy_all
 Major.destroy_all
 Qualification.destroy_all
 
-# setup an admin with no profile
-admin = User.create!(email:"admin@admin.com", password:"admins")
+# Create ADMIN profile
+admin = User.create(email:"admin@admin.com", password:"admins")
 admin.add_role(:admin)
 
 images = [
@@ -58,7 +58,7 @@ images.each_with_index do |path, i|
   last = last_names.sample()
   # create USER
   new_user = User.create(
-    email:"acc#{i}@user.com",
+    email:"#{first}_#{last}@user.com",
     password:"password")
   # create PROFILE
   profile = Profile.create!(
@@ -79,4 +79,5 @@ images.each_with_index do |path, i|
       qualification: Qualification.find_by(name: quals.pop())
     )
   end
+
 end

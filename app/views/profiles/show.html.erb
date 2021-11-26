@@ -1,20 +1,27 @@
 <div class="container-sm" id="profile">
-  <div class="row" id="profile-header">
+  <div class="row sticky-top" id="profile-header">
     <div class="col-sm-auto">
-      <%= image_tag "GoldBlackAMicon.png", width: 100, id:"show-icon" %>
+      <%= image_tag "GoldBlackAMicon.png", width: 150, id:"show-icon" %>
     </div>
     <div class="col-sm">
       <h1 id="show-acc-name">
         <%= @profile.first_name %>
         <%= @profile.last_name %>
       </h1>
+      <nav>
+        <%= link_to "<< previous", profile_path(@next_profile_id), class:"btn" %>
+        |
+        <%= link_to "home", root_path, class:"btn" %>
+        |
+        <%= link_to "next >>", profile_path(@previous_profile_id), class:"btn" %>
+      </nav>
     </div>
   </div>
   <div id="profile-body">
     <div class="row">
       <div class="col-sm-auto">
         <% if @profile.picture.attached? %>
-          <%= cl_image_tag @profile.picture.key, cloud_name: "dbsmyugus", crop: :scale, width: 150%>
+          <%= cl_image_tag @profile.picture.key, cloud_name: "dbsmyugus", crop: :scale, width: 150 %>
         <% else %>
           <%= image_tag "load_profile.png", width: 150, class:"image-fluid"%>
         <% end %>
@@ -43,16 +50,23 @@
     <div class="row">
       <div class="col">
         <% if current_user.has_role?(:admin) %>
-          <h5 class="announce">NOTE: CURRENTLY SIGNED IN AS ADMIN</h5>
+          <h5 class="announce">NOTE: CURRENTLY SIGNED IN AS ADMIN </h5>
+          <%= link_to "ADMIN EDIT", edit_profile_path(@profile.id) %>
+          <%= link_to "ADMIN DELETE", destroy_profile_path(@profile.id), class:"btn", message: "Are you sure you wish to remove this profile?", method: :delete %>
         <% end %>
         <h5>About me:</h5>
         <p><%= @profile.blurb %></p>
       </div>
     </div>
+
   <div class="row">
     <div class="col">
-      <% if @profile.users_profile? %>
-        <h4>My Profile</h4>
+      <% if @profile.user_id == current_user.id %>
+        <h4 class="announce">My Profile 
+        <%= link_to "edit", edit_profile_path(@profile.id), class:"btn" %>
+        <%= link_to "remove", destroy_profile_path(@profile.id), class:"btn", message: "Are you sure you wish to remove your profile?", method: :delete %>
+        </h4>
+        <hr />
         <% if @profile.has_any_qualifications? == false %>
           <p class="announce">Notice: please load qualifications as soon as possible.</p>
         <% end %>
@@ -69,8 +83,8 @@
           <table>
             <% @profile.user.messages_received.unseen.each do |msg| %>
               <tr>
-                <td><%= msg.sender.email %></td>
-                <td><%= msg.content %></td>
+                <td class="email"><%= msg.sender.email %></td>
+                <td class="content"><%= msg.content %></td>
                 <td><%= link_to "clear", update_message_path(msg.id), method: :patch, class:"btn" %></td>
                 <% if current_user.has_role?(:admin) %>
                   <td><%= link_to "DELETE MESSAGE(ADMIN)", destroy_message_path(msg.id), method: :patch %></td>
