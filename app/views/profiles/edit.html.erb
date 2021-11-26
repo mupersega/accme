@@ -16,7 +16,7 @@
     </p>
     <p>
       <%= f.label "Contact details visible?" %>
-      <%= f.check_box :contactable, checked: current_user.profile.contactable %>
+      <%= f.check_box :contactable, checked: @profile.contactable %>
     </p>
     <p>
       <%= f.label "About me:" %><br />
@@ -31,9 +31,9 @@
         <% @qualifications.each do |q| %>
         <div>
             <%= nested_form.label q.name %>
-            <%= nested_form.check_box q.id, checked: current_user.profile.has_qualification?(q.id) %>
+            <%= nested_form.check_box q.id, checked: @profile.has_qualification?(q.id) %>
             <%= fields_for "#{q.id}" do |nf| %>
-              <%= nf.collection_select :qualification_major, @majors, :id, :name, selected: current_user.profile.get_qualification_major(q.id) %>
+              <%= nf.collection_select :qualification_major, @majors, :id, :name, selected: @profile.get_qualification_major(q.id) %>
             <% end%>
         </div>   
         <% end %>
